@@ -1,0 +1,25 @@
+{
+  "name": "Geiser",
+  "version": "1.0.0",
+  "description": "\"Um visualizador de PCs fritando\"",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DanielaLourenco/cefet-web-geiser.git"
+  },
+  "author": "daniela",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DanielaLourenco/cefet-web-geiser/issues"
+  },
+  "homepage": "https://github.com/DanielaLourenco/cefet-web-geiser#readme",
+  "dependencies": {
+    "express": "latest"
+  }
+}
