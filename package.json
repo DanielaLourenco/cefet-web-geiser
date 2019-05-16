@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/DanielaLourenco/cefet-web-geiser#readme",
   "dependencies": {
-    "express": "latest"
+    "express": "latest",
+    "hbs": "^4.0.4"
   }
 }
