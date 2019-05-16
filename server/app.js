@@ -1,17 +1,17 @@
 var express = require('express'),
     app = express(),
-	fs = require('fs');
+    fs = require('fs');
 
 // carregar "banco de dados" (data/jogadores.json e data/jogosPorJogador.json)
 // você pode colocar o conteúdo dos arquivos json no objeto "db" logo abaixo
 // dica: 3-4 linhas de código (você deve usar o módulo de filesystem (fs))
-var players = JSON.parse(fs.readFileSync('server/data/jogadores.json', 'utf8'))
-var games 	= JSON.parse(fs.readFileSync('server/data/jogosPorJogador.json', 'utf8'))
+let { players } = JSON.parse(fs.readFileSync('server/data/jogadores.json', 'utf8'))
+let games = JSON.parse(fs.readFileSync('server/data/jogosPorJogador.json', 'utf8'))
+
 var db = {
     players,
     games
 };
-
 
 // configurar qual templating engine usar. Sugestão: hbs (handlebars)
 app.set('view engine', 'hbs');
@@ -32,7 +32,22 @@ app.get('/', (request, response) => {
 // jogador, usando os dados do banco de dados "data/jogadores.json" e
 // "data/jogosPorJogador.json", assim como alguns campos calculados
 // dica: o handler desta função pode chegar a ter umas 15 linhas de código
-
+app.get('/jogador/:numero_identificador/', (request, response) => {
+    let gamesByPlayer = db.games[request.params.numero_identificador]
+    gamesByPlayer.not_played = gamesByPlayer.not_played || gamesByPlayer.games.filter(game => game.playtime_forever == 0).length
+    gamesByPlayer.games = gamesByPlayer.games
+        .sort((a, b) => a.playtime_forever < b.playtime_forever ? 1 : -1)
+        .slice(0, 5)
+        .map((game) => {
+            game.playtime_hours = Math.floor(game.playtime_forever / 60)
+            return game
+        })
+    gamesByPlayer.favorite = gamesByPlayer.games[0]
+    response.render('jogador', {
+        player: db.players.find(player => player.steamid == request.params.numero_identificador),
+        gamesByPlayer
+    })
+})
 
 // EXERCÍCIO 1
 // configurar para servir os arquivos estáticos da pasta "client"
